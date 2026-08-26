@@ -164,7 +164,9 @@ Key challenges included working with inconsistent categorical values, handling c
 
 The project developed practical skills in pandas ETL, exploratory analysis, formal hypothesis testing, hypothesis formulation, Plotly visualisation, Streamlit interaction design, and scikit-learn classification and regression. Future improvements include customer-clustered inference, bootstrap confidence intervals for categorical tests, model cross-validation and calibration, explainability using feature importance or SHAP, better customer-level temporal features, profit-aware discount analysis, automated tests, and deployment monitoring.
 
-Generative AI was used for ideation, dashboard structure, code review, debugging guidance, and improving explanatory text. All generated suggestions were checked against the project data, executed in the notebook or application where appropriate, and adapted to the project's limitations.
+Generative AI was used responsibly to support project development by providing suggestions for code structure, formatting, analytical methods, package and module troubleshooting, and visualisation improvements. All suggestions and generated code were critically reviewed, tested, and adapted where necessary before being incorporated into the project. the AI was used for exploration of large suitable ideas which saved a lot of time and effort.
+
+While AI sometimes reduced the need for independent exploration and deep thinking, using it responsibly helped me manage time, overcome technical challenges, and develop my data analysis skills more efficiently.
 
 ## Installation and use
 
@@ -183,75 +185,33 @@ streamlit run app.py
 * Dashboard: [Streamlit](https://streamlit.io/).
 * Machine learning: [scikit-learn](https://scikit-learn.org/).
 * Data processing: [pandas](https://pandas.pydata.org/) and [NumPy](https://numpy.org/).
-# Project XYZ
+* code-institute LMS.
 
-**Project XYZ** is a comprehensive data analysis tool designed to streamline data exploration, analysis, and visualisation. The tool supports multiple data formats and provides an intuitive interface for both novice and expert data scientists.
-
-# ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+**SmartCart_Analytics** is a comprehensive data analysis tool designed to streamline data exploration, analysis, and visualisation. The tool supports multiple data formats and provides an intuitive interface for both novice and expert data scientists.
 
 ## Dataset Content
 
 * Data was taken from https://www.kaggle.com/datasets/rewantbhriguvanshi/customer-shopping-trends-indian/data, which is the synthetic data and gets updated accordingly.
 
-## Business Requirements
-
-* Describe your business requirements
-
-## Hypothesis and how to validate?
-
-* List here your project hypothesis(es) and how you envision validating it (them) 
-
-## Project Plan
-
-* Outline the high-level steps taken for the analysis.
-* How was the data managed throughout the collection, processing, analysis and interpretation steps?
-* Why did you choose the research methodologies you used?
-
-## The rationale to map the business requirements to the Data Visualisations
-
-* List your business requirements and a rationale for mapping them to the Data Visualisations
-
-## Analysis techniques used
-
-* List the data analysis methods used and explain limitations or alternative approaches.
-* How did you structure the data analysis techniques? Justify your response.
-* Did the data limit you, and did you use an alternative approach to meet these challenges?
-* How did you use generative AI tools to help with ideation, design thinking and code optimisation?
-
-## Ethical considerations (optional)
-
-* Feel free to delete this section if this is a data visualisation only (unit 1 or 2) project submission.
-* Were there any data privacy, bias or fairness issues with the data?
-* How did you overcome any legal or societal issues?
-
-## Dashboard Design (optional)
-
-* Feel free to delete this section if this is a data visualisation only (unit 1 or 2) project submission.
-* List all dashboard pages and their content, either blocks of information or widgets, like buttons, checkboxes, images, or any other item that your dashboard library supports.
-* Later, during project development, you may revisit your dashboard plan to update a feature (for example, at the beginning of the project, you were confident you would use a given plot to display an insight, but later you used another plot type).
-* How were data insights communicated to technical and non-technical audiences?
-* Explain how the dashboard was designed to communicate complex data insights to different audiences. 
-
 ## Unfixed Bugs
+* None
 
-* Please list any unfixed bugs and explain why they were not fixed. This section should include shortcomings of the frameworks or technologies used. Although time can be a significant variable to consider, paucity of time and difficulty understanding implementation are not valid reasons to leave bugs unfixed.
-* Did you recognise gaps in your knowledge, and how did you address them?
-* If applicable, include evidence of feedback received (from peers or instructors) and how it improved your approach or understanding.
 
-## Development Roadmap
+### Heroku 
+### App Information:
 
-* What challenges did you face, and what strategies were used to overcome these challenges?
-* What new skills or tools do you plan to learn next based on your project experience? 
+* App Name         smart-cart-analytics
+* App Link(Domain) https://smart-cart-analytics-0a5e54da0e9e.herokuapp.com/     
+* Region           Europe
+* Stack            heroku-24
+* Frameworks       Python(version 3.12.8)
+* GitHub Repo      ghargelg-code26/SmartCart_Analytics
+* Heroku Git URL   https://git.heroku.com/smart-cart-analytics.git
+* Generation       Cedar
 
-## Deployment (optional)
 
-* If this is a Unit 3 Streamlit, Power BI or Tableau Public project, then you can include a link here and explain how you hosted the dashboard.
+* The App live link is: https://smart-cart-analytics-0a5e54da0e9e.herokuapp.com/ 
 
-### Heroku (optional)
-
-* This section is necessary only if you are deploying a Streamlit app to Heroku as part of your submission for units 2 and 3. 
-* The App live link is: https://YOUR_APP_NAME.herokuapp.com/ 
-* Set the `.python-version` Python version to a [Heroku-22](https://devcenter.heroku.com/articles/python-support#supported-runtimes) stack currently supported version.
 * The project was deployed to Heroku using the following steps.
 
 1. Log in to Heroku and create an App
@@ -261,26 +221,6 @@ streamlit run app.py
 5. The deployment process should happen smoothly if all deployment files are fully functional. Click the button Open App at the top of the page to access your App.
 6. If the slug size is too large, then add large files not required for the app to the `.slugignore` file.
 
-## Main Data Analysis Libraries
-
-* Here you should list the libraries you used in the project and provide an example(s) of how you used these libraries.
-
-## Credits
-
-* In this section, you need to reference where you got your content, media and extra help from. It is common practice to use code from other repositories and tutorials; however, it is important to be very specific about these sources to avoid plagiarism. 
-* You can break the credits section into Content and Media, depending on what you include in your project. 
-
-### Content 
-
-- The text for the Home page was taken from the Wikipedia Article A
-- Instructions on how to implement form validation were taken from a [Specific YouTube Tutorial](https://www.youtube.com/)
-- The icons in the footer were taken from [Font Awesome](https://fontawesome.com/)
-
-### Media
-
-- The photos used on the home and sign-up page are from This Open-Source site
-- The images used for the gallery page were taken from this other open-source site
-
-
-
 ## Acknowledgements (optional)
+
+my acknowledgement goes to Vasi Pavaloi & Rory Patrick sheridian from Code Institute for Guidance and support.
