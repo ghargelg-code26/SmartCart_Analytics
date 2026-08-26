@@ -506,6 +506,51 @@ with tab_predictions:
         st.success(f"Estimated return probability: {return_probability:.1%} (low risk)")
     st.progress(float(return_probability))
 
+    st.markdown("**Brand suggestions for the selected customer and product profile**")
+    suggestion_matches = df[
+        df["Gender"].eq(prediction_gender)
+        & df["Category"].eq(prediction_category)
+        & df["Size"].eq(prediction_size)
+        & df["Color"].eq(prediction_color)
+    ]
+    brand_suggestions = (
+        suggestion_matches.groupby("Brand", as_index=False)
+        .agg(
+            Transactions=("Customer ID", "size"),
+            Historical_Return_Rate=("Is_Returned", "mean"),
+            Average_Purchase=("Purchase Amount (₹)", "mean"),
+        )
+        .query("Transactions >= 5")
+        .sort_values(
+            ["Historical_Return_Rate", "Transactions"],
+            ascending=[True, False],
+        )
+        .head(5)
+    )
+    if brand_suggestions.empty:
+        st.info(
+            "No brands have at least five matching historical transactions for "
+            "this gender, category, size, and colour combination."
+        )
+    else:
+        st.caption(
+            "These are historical associations only; they do not change the "
+            "return-risk prediction above."
+        )
+        st.dataframe(
+            brand_suggestions,
+            use_container_width=True,
+            hide_index=True,
+            column_config={
+                "Historical_Return_Rate": st.column_config.NumberColumn(
+                    "Historical return rate", format="0.0%"
+                ),
+                "Average_Purchase": st.column_config.NumberColumn(
+                    "Average purchase", format="₹%.2f"
+                ),
+            },
+        )
+
     st.divider()
     st.subheader("Customer-value prediction")
     value_left, value_right = st.columns(2)
