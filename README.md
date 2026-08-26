@@ -227,6 +227,7 @@ https://github.com/users/ghargelg-code26/projects/2/views/1
 * GitHub Repo      ghargelg-code26/SmartCart_Analytics
 * Heroku Git URL   https://git.heroku.com/smart-cart-analytics.git
 * Generation       Cedar
+* Latest Version Realease : Released v10 https://smart-cart-analytics-0a5e54da0e9e.herokuapp.com/ deployed to Heroku
 
 
 * The App live link is: https://smart-cart-analytics-0a5e54da0e9e.herokuapp.com/ 
