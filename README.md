@@ -116,9 +116,19 @@ Logistic Regression provides an interpretable linear baseline. Random Forest was
 
 ### Customer-value regression
 
-A Random Forest Regressor estimates total customer spend after transactions are aggregated by `Customer ID`. The test-set **R² score** measures the proportion of variation in customer spend explained by the selected predictors. A low or negative R² would indicate that additional features such as recency, transaction count, average order value, channel, and profit contribution are required.
+A Random Forest Regressor estimates total customer spend after transactions are aggregated by `Customer ID`. The ML notebook also benchmarks the existing Random Forest against Ridge Regression and Gradient Boosting using the same customer-level split and predictors. The models are compared using R², MAE, and RMSE: higher R² and lower MAE/RMSE indicate better performance.
+
+In the current benchmark, Ridge performed best (R² = 0.703, MAE = 2,937.035, RMSE = 4,719.657), followed by Gradient Boosting (R² = 0.695) and Random Forest (R² = 0.628). Ridge is therefore the best-performing model in this notebook comparison. The Random Forest used by the existing Streamlit application remains unchanged, so this comparison does not alter the app.
+
+These results are based on one hold-out split and should be confirmed with cross-validation before production model selection. A low or negative R² would indicate that additional features such as recency, transaction count, average order value, channel, and profit contribution are required.
 
 The predictions are prototypes, not guaranteed future outcomes. They should be validated on new, unseen customer data before being used operationally.
+
+### Discount optimisation modelling
+
+Goal 3 remains primarily a descriptive analysis of discount percentage, quantity, purchase amount, festival activity, and return rate. An additional regression experiment predicts transaction `Quantity` from discount percentage and customer/product context using Ridge, Random Forest, and Gradient Boosting.
+
+Ridge performed best in the current comparison, but all three models produced negative R² values: Ridge (-0.008), Gradient Boosting (-0.021), and Random Forest (-0.079). This means none of the models predicted quantity reliably better than a mean-based baseline. The result is reported as a limitation rather than evidence that discounts cause changes in quantity. Cost and margin data would also be required to assess true promotional profitability.
 
 ## Dashboard and visualisation (criterion 4.1)
 
@@ -196,6 +206,15 @@ streamlit run app.py
 ## Unfixed Bugs
 * None
 
+## Image Folder 
+
+this folder in the project has the screenshots for plotly, widget, graphs and app when the were produced when testing the project can be considered as part of evidence.
+
+## Kanban project dashboard
+
+Kanban project dashboard is used for the developement of the project. 
+the following is the link for it
+https://github.com/users/ghargelg-code26/projects/2/views/1
 
 ### Heroku 
 ### App Information:
