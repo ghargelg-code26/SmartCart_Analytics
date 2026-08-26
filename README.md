@@ -1,75 +1,286 @@
-# ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# SmartCart_Analytics
 
-## Template Instructions
+SmartCart_Analytics is an end-to-end customer-shopping analysis project. It cleans and explores transaction data, tests business hypotheses, trains machine-learning prototypes, and presents interactive insights through a Streamlit dashboard.
 
-Welcome,
+## Project purpose
 
-This is the Code Institute student template for the three Data Analytics capstone projects. We have preinstalled all of the tools you need to get started. It's perfectly okay to use this template as the basis for your project submissions. Click the `Use this template` button above to get started.
+The project supports three business goals:
 
-You can safely delete the Template Instructions section of this README.md file and modify the remaining paragraphs for your own project. Please do read the Template Instructions at least once, though! It contains some important information about the IDE and the extensions we use.
+1. **Reduce returns** by identifying product and order characteristics associated with return risk.
+2. **Grow customer value** by analysing loyalty behaviour and estimating total customer spend.
+3. **Optimise discounts** by comparing discount levels with quantity, purchase value, festival activity, and return rates.
 
-If you are working on the first capstone project, you can also delete `.python-version`, `.slugignore`, `Procfile` and `setup.sh` as they are only required for later dashboard projects. 
+The analysis describes associations in completed transactions. It does not establish causation.
 
-## How to use this repo
+## Dataset
 
-1. Use this template to create your GitHub project repo. Click the **Use this template** button, then click **Create a new repository**.
+The project uses the public customer shopping trends dataset from [Kaggle](https://www.kaggle.com/datasets/rewantbhriguvanshi/customer-shopping-trends-indian/data). The raw file is stored at:
 
-1. Copy the URL of your repository to your clipboard.
+`dataset/customer_shopping_behavior.csv`
 
-1. In VS Code, select **File** -> **Open Folder**.
+The data contains customer demographics, product details, purchase amounts, quantities, discounts, shipping and delivery information, payment methods, ratings, subscription status, purchase frequency, and return status.
 
-1. Select your `vscode-projects` folder, then click the **Select Folder** button on Windows, or the **Open** button on Mac.
+## Project structure
 
-1. From the top menu in VS Code, select **Terminal** > **New Terminal** to open a new terminal.
-
-1. In the terminal, type `git clone` followed by the URL of your GitHub repository. Then hit **Enter**. This command will download all the files in your GitHub repository into your vscode-projects folder.
-
-1. In VS Code, select **File** > **Open Folder** again.
-
-1. This time, navigate to and select the folder for the project you just downloaded. Then, click **Select Folder**.
-
-1. A virtual environment is necessary when working with Python projects to ensure each project's dependencies are kept separate. You need to create your virtual environment, also called a venv, and then activate it whenever you return to your workspace.
-Click the gear icon in the lower left-hand corner of the screen to open the Manage menu and select **Command Palette** to open the VS Code command palette.
-
-1. In the command palette, type: *create environment* and select **Python: Create Environment…**
-
-1. Choose **Venv** from the dropdown list.
-
-1. Choose the Python version you installed earlier. Currently, we recommend Python 3.12.8
-
-1. **DO NOT** click the box next to `requirements.txt`; you need to complete additional steps before installing your dependencies. Click **OK**.
-
-1. You will see a `.venv` folder appear in the file explorer pane, indicating that the virtual environment has been created.
-
-1. **Important**: Note that the `.venv` folder is in the `.gitignore` file so that Git won't track it.
-
-1. Return to the terminal by clicking on the TERMINAL tab, or click on the **Terminal** menu and choose **New Terminal** if no terminal is currently open.
-
-1. In the terminal, use the command below to install your dependencies. This may take several minutes.
-
- ```console
- pip3 install -r requirements.txt
- ```
-
-1. Open the `jupyter_notebooks` directory, and click on the notebook you want to open.
-
-1. Click the **Kernel** button, then choose **Python Environments**.
-
-Note that the kernel says `Python 3.12.8` as it inherits from the venv, so it will be Python-3.12.8 if that is what is installed on your PC. To confirm this, you can use the command below in a notebook code cell.
-
-```console
-! python --version
+```text
+.
+├── app.py
+├── cleaned_customer_shopping_data.csv
+├── dataset/
+│   └── customer_shopping_behavior.csv
+├── jupyter_notebooks/
+│   ├── customer_shopping_behaviour_ETL_and_Anlaysis.ipynb
+│   ├── ML_PipeLine.ipynb
+│   └── EDA_PipeLine.ipynb
+├── requirements.txt
+├── Procfile
+└── setup.sh
 ```
 
-## Deployment Reminders
+## Business requirements and hypotheses
 
-* The `.python-version`, `.slugignore`, `Procfile` and `setup.sh` files are necessary only if you are deploying a Streamlit app to Heroku as part of your submission for units 2 and 3. 
-* Set the `.python-version` Python version to a [Heroku-22](https://devcenter.heroku.com/articles/python-support#supported-runtimes) stack, currently supported version that most closely matches what you used in this project.
-* The project can be deployed to Heroku using the following steps.
+### Goal 1 — Reducing returns
+
+Investigate whether return rates vary by category, size, colour, discount, customer characteristics, and purchase amount. The return-risk prototype classifies an order as likely to be returned or not returned.
+
+### Goal 2 — Predicting high-value customers
+
+Group transactions by `Customer ID` and estimate total customer spend using previous purchases, purchase frequency, subscription status, and average review rating. The result can support customer segmentation and retention planning.
+
+### Goal 3 — Optimising discounts
+
+Assess whether higher discounts are associated with increased quantity or purchase value, while monitoring return rates and festival-sale behaviour. Profit-margin data is unavailable, so the analysis cannot calculate true promotional profitability.
+
+The ETL notebook examines ten hypotheses covering:
+
+* Festival or sale activity versus purchase amount, quantity, and rating.
+* Discount levels versus quantity and return rate.
+* Shipping charge, delivery speed, and purchase amount.
+* Delivery time versus online review rating.
+* Age and gender versus category preferences.
+* Location versus online or offline shopping preference.
+* Subscription status versus loyalty measures.
+* Review rating versus purchase-frequency interval.
+* Payment method versus purchase amount.
+* Category, size, and colour combinations versus return rate.
+
+## Project plan and ETL process
+
+The project follows a structured Extract, Transform, Load and Analyse workflow:
+
+1. **Extract:** Load the raw CSV with pandas and inspect its shape, columns, data types, and missing values.
+2. **Transform:** Strip whitespace from text fields, convert `Purchase Date` to datetime, replace meaningful missing categories, standardise return and subscription targets, and map purchase-frequency labels to approximate day intervals.
+3. **Feature engineering:** Create `Purchase_Year`, `Purchase_Month`, `Purchase_DayOfWeek`, `Is_Returned`, `Is_Subscribed`, and `Purchase_Frequency_Days`.
+4. **Load:** Save the cleaned dataset as `cleaned_customer_shopping_data.csv` for reuse by the machine-learning notebook and Streamlit app.
+5. **Analyse:** Produce descriptive summaries, correlations, grouped comparisons, hypothesis visualisations, and predictive prototypes.
+
+ETL is completed before EDA because inconsistent whitespace, raw dates, missing values, and mixed categorical labels can create duplicate groups and misleading charts.
+
+## Core statistical concepts (criterion 1.1)
+
+* **Mean:** The arithmetic average, calculated as the total of all values divided by the number of observations. It summarises the typical purchase amount, quantity, or rating but can be affected by extreme values.
+* **Median:** The middle value after sorting observations. It is more robust than the mean when transaction values are skewed or contain outliers.
+* **Variance and standard deviation:** Variance measures the average squared distance from the mean. Standard deviation is the square root of variance and expresses typical spread in the original unit of measurement.
+* **Probability:** Probability represents how likely an event is. In this project, return rate is an empirical probability: the proportion of transactions marked as returned.
+* **Hypothesis testing:** A null hypothesis represents no meaningful difference or relationship. A statistical test uses sample evidence to assess whether the observed result would be unlikely under that null hypothesis. A p-value should be considered alongside effect size, confidence intervals, sample size, and business context.
+
+These concepts are foundational because data analysis requires describing central tendency, measuring variation, quantifying uncertainty, and evaluating whether patterns are stronger than random sampling variation.
+
+## Statistical analysis (criterion 1.2)
+
+The notebooks use pandas to calculate group means, medians, correlations, counts, return probabilities, and grouped proportions. Variability can be inspected with variance and standard deviation calculations such as:
+
+```python
+df_clean[['Purchase Amount (₹)', 'Quantity', 'Review Rating']].agg(
+	['mean', 'median', 'var', 'std']
+)
+```
+
+The hypothesis analysis compares grouped outcomes and uses correlation as an exploratory measure. The formal testing section now adds Shapiro–Wilk normality diagnostics, Welch's independent t-tests, Mann–Whitney U tests, Kruskal–Wallis tests, chi-squared tests, and Spearman correlations where their assumptions and variable types are appropriate. The section reports the null and alternative hypotheses, test justification, sample sizes, test statistic, raw p-value, Benjamini–Hochberg adjusted p-value, effect size, confidence interval information, plain-language interpretation, and limitations.
+
+Paired t-tests and Wilcoxon signed-rank tests are documented but not applied because this dataset does not contain genuine before-and-after measurements or matched observations. The formal tests use a copy of the cleaned dataframe and do not change the ETL output, existing EDA objects, machine-learning features, or Streamlit inputs. Results remain exploratory and should be confirmed with customer-level methods, confidence intervals for all test types, and additional operational data before decisions are made.
+
+## Machine learning prototypes (criteria 1.3 and 2.2)
+
+### Return-risk classification
+
+The `ML_PipeLine.ipynb` notebook compares Logistic Regression and Random Forest classification. Categorical predictors are one-hot encoded, and the data is split into training and test sets using stratification. Because returned orders are the minority class, balanced class weights are used.
+
+The models are evaluated with:
+
+* **F1 score:** balances precision and recall for the returned-order class.
+* **ROC-AUC:** measures how well the model ranks returned and non-returned transactions across thresholds.
+* **Classification report:** shows precision, recall, F1 score, and support for both classes.
+
+Logistic Regression provides an interpretable linear baseline. Random Forest was selected as a useful alternative because it can learn non-linear relationships and interactions without requiring feature scaling. The model with the strongest F1 score is treated as the preferred prototype, while its error trade-offs must still be reviewed.
+
+### Customer-value regression
+
+A Random Forest Regressor estimates total customer spend after transactions are aggregated by `Customer ID`. The test-set **R² score** measures the proportion of variation in customer spend explained by the selected predictors. A low or negative R² would indicate that additional features such as recency, transaction count, average order value, channel, and profit contribution are required.
+
+The predictions are prototypes, not guaranteed future outcomes. They should be validated on new, unseen customer data before being used operationally.
+
+## Dashboard and visualisation (criterion 4.1)
+
+`app.py` provides a Streamlit dashboard using pandas, Plotly, and scikit-learn. It includes:
+
+* Sidebar filters for category, gender, shopping channel, subscription status, festival or sale activity, and discount range.
+* Overview metrics for transactions, customers, average purchase amount, and return rate.
+* Dynamic Plotly charts for category spending, purchase value over time, return rates, customer tiers, discount behaviour, and festival comparisons.
+* A Returns tab showing category risk, discount patterns, and high-risk category-size-colour combinations.
+* A Customers tab showing subscription comparisons, customer tiers, and total-spend relationships.
+* A Discounts tab showing quantity, purchase value, and return-rate patterns.
+* A Predictions tab with interactive return-risk and customer-value forms.
+* A Goals tab that explains the business narrative, recommended actions, and data limitations.
+
+Streamlit with Plotly was selected as the stakeholder tool because it provides a browser-based interface, interactive controls, responsive charts, and prediction forms without requiring stakeholders to run notebook cells. The notebooks remain useful for transparent analysis and reproducibility, while the app provides a more accessible decision-support experience.
+
+## Storytelling approach
+
+The dashboard guides users from:
+
+1. **What is happening?** — Overview metrics and purchase trends.
+2. **Where are risks concentrated?** — Returns by category, discount, size, and colour.
+3. **Which customers matter most?** — Customer tiers, subscription comparisons, and loyalty measures.
+4. **How should promotions be assessed?** — Quantity and purchase value are shown alongside return rates.
+5. **What might happen next?** — Prediction forms estimate return risk and customer value.
+6. **What should be remembered?** — The Goals tab explains recommended actions and limitations.
+
+Chart titles, labels, tooltips, metrics, and short explanations are designed to make the findings accessible to both technical and non-technical audiences.
+
+## Limitations and ethical considerations
+
+* The dataset contains completed purchases, not abandoned carts; therefore shipping analysis cannot directly measure cart abandonment.
+* The data is synthetic or publicly provided and may not represent all SmartCart customers.
+* Observational associations do not prove that discounts, delivery, ratings, or demographics cause outcomes.
+* Customer-level predictions may be affected by incomplete history and should not be used to unfairly deny service.
+* Demographic attributes should be monitored for bias and used responsibly. Predictions should support review and prioritisation, not automatic exclusion.
+* Profit margins, logistics costs, customer recency, and true lifetime-value outcomes are not available.
+* Product combinations are filtered to a minimum transaction count to reduce unreliable conclusions from very small groups.
+
+## Learning journey and development roadmap (criterion 4.2)
+
+Key challenges included working with inconsistent categorical values, handling context-dependent missing values, creating reusable paths between notebook folders and the project root, adding interactive widgets, and ensuring that the notebook and Streamlit app used the same encoded model features. These were addressed through explicit cleaning steps, feature engineering, cached model training, aligned one-hot-encoded columns, and repeated syntax and runtime validation.
+
+The project developed practical skills in pandas ETL, exploratory analysis, formal hypothesis testing, hypothesis formulation, Plotly visualisation, Streamlit interaction design, and scikit-learn classification and regression. Future improvements include customer-clustered inference, bootstrap confidence intervals for categorical tests, model cross-validation and calibration, explainability using feature importance or SHAP, better customer-level temporal features, profit-aware discount analysis, automated tests, and deployment monitoring.
+
+Generative AI was used for ideation, dashboard structure, code review, debugging guidance, and improving explanatory text. All generated suggestions were checked against the project data, executed in the notebook or application where appropriate, and adapted to the project's limitations.
+
+## Installation and use
+
+Create or activate a Python environment, then install the dependencies from `requirements.txt`. Run the ETL notebook first so that `cleaned_customer_shopping_data.csv` exists. The machine-learning notebook can then be run to inspect model performance and interactive prototypes.
+
+To launch the dashboard, run Streamlit from the project root:
+
+```text
+streamlit run app.py
+```
+
+## Credits
+
+* Dataset: [Customer Shopping Trends Indian](https://www.kaggle.com/datasets/rewantbhriguvanshi/customer-shopping-trends-indian/data), accessed through Kaggle.
+* Visualisation: [Plotly](https://plotly.com/python/) and [Matplotlib](https://matplotlib.org/).
+* Dashboard: [Streamlit](https://streamlit.io/).
+* Machine learning: [scikit-learn](https://scikit-learn.org/).
+* Data processing: [pandas](https://pandas.pydata.org/) and [NumPy](https://numpy.org/).
+# Project XYZ
+
+**Project XYZ** is a comprehensive data analysis tool designed to streamline data exploration, analysis, and visualisation. The tool supports multiple data formats and provides an intuitive interface for both novice and expert data scientists.
+
+# ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+
+## Dataset Content
+
+* Data was taken from https://www.kaggle.com/datasets/rewantbhriguvanshi/customer-shopping-trends-indian/data, which is the synthetic data and gets updated accordingly.
+
+## Business Requirements
+
+* Describe your business requirements
+
+## Hypothesis and how to validate?
+
+* List here your project hypothesis(es) and how you envision validating it (them) 
+
+## Project Plan
+
+* Outline the high-level steps taken for the analysis.
+* How was the data managed throughout the collection, processing, analysis and interpretation steps?
+* Why did you choose the research methodologies you used?
+
+## The rationale to map the business requirements to the Data Visualisations
+
+* List your business requirements and a rationale for mapping them to the Data Visualisations
+
+## Analysis techniques used
+
+* List the data analysis methods used and explain limitations or alternative approaches.
+* How did you structure the data analysis techniques? Justify your response.
+* Did the data limit you, and did you use an alternative approach to meet these challenges?
+* How did you use generative AI tools to help with ideation, design thinking and code optimisation?
+
+## Ethical considerations (optional)
+
+* Feel free to delete this section if this is a data visualisation only (unit 1 or 2) project submission.
+* Were there any data privacy, bias or fairness issues with the data?
+* How did you overcome any legal or societal issues?
+
+## Dashboard Design (optional)
+
+* Feel free to delete this section if this is a data visualisation only (unit 1 or 2) project submission.
+* List all dashboard pages and their content, either blocks of information or widgets, like buttons, checkboxes, images, or any other item that your dashboard library supports.
+* Later, during project development, you may revisit your dashboard plan to update a feature (for example, at the beginning of the project, you were confident you would use a given plot to display an insight, but later you used another plot type).
+* How were data insights communicated to technical and non-technical audiences?
+* Explain how the dashboard was designed to communicate complex data insights to different audiences. 
+
+## Unfixed Bugs
+
+* Please list any unfixed bugs and explain why they were not fixed. This section should include shortcomings of the frameworks or technologies used. Although time can be a significant variable to consider, paucity of time and difficulty understanding implementation are not valid reasons to leave bugs unfixed.
+* Did you recognise gaps in your knowledge, and how did you address them?
+* If applicable, include evidence of feedback received (from peers or instructors) and how it improved your approach or understanding.
+
+## Development Roadmap
+
+* What challenges did you face, and what strategies were used to overcome these challenges?
+* What new skills or tools do you plan to learn next based on your project experience? 
+
+## Deployment (optional)
+
+* If this is a Unit 3 Streamlit, Power BI or Tableau Public project, then you can include a link here and explain how you hosted the dashboard.
+
+### Heroku (optional)
+
+* This section is necessary only if you are deploying a Streamlit app to Heroku as part of your submission for units 2 and 3. 
+* The App live link is: https://YOUR_APP_NAME.herokuapp.com/ 
+* Set the `.python-version` Python version to a [Heroku-22](https://devcenter.heroku.com/articles/python-support#supported-runtimes) stack currently supported version.
+* The project was deployed to Heroku using the following steps.
 
 1. Log in to Heroku and create an App
-2. At the **Deploy** tab, select **GitHub** as the deployment method.
-3. Select your repository name and click **Search**. Once it is found, click **Connect**.
-4. Select the branch you want to deploy, then click **Deploy Branch**.
-5. The deployment process should happen smoothly if all deployment files are fully functional. Click the button **Open App** at the top of the page to access your App.
+2. From the Deploy tab, select GitHub as the deployment method.
+3. Select your repository name and click Search. Once it is found, click Connect.
+4. Select the branch you want to deploy, then click Deploy Branch.
+5. The deployment process should happen smoothly if all deployment files are fully functional. Click the button Open App at the top of the page to access your App.
 6. If the slug size is too large, then add large files not required for the app to the `.slugignore` file.
+
+## Main Data Analysis Libraries
+
+* Here you should list the libraries you used in the project and provide an example(s) of how you used these libraries.
+
+## Credits
+
+* In this section, you need to reference where you got your content, media and extra help from. It is common practice to use code from other repositories and tutorials; however, it is important to be very specific about these sources to avoid plagiarism. 
+* You can break the credits section into Content and Media, depending on what you include in your project. 
+
+### Content 
+
+- The text for the Home page was taken from the Wikipedia Article A
+- Instructions on how to implement form validation were taken from a [Specific YouTube Tutorial](https://www.youtube.com/)
+- The icons in the footer were taken from [Font Awesome](https://fontawesome.com/)
+
+### Media
+
+- The photos used on the home and sign-up page are from This Open-Source site
+- The images used for the gallery page were taken from this other open-source site
+
+
+
+## Acknowledgements (optional)
